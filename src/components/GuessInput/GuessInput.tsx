@@ -1,39 +1,63 @@
 import { useEffect, useState } from "react"
-import GuessInputLetter from "./GuessInputLetter/GuessInputLetter"
-import classNames from "classnames"
+import GuessInputLetter from "./GuessInputLetter"
 
 interface Props {
-  word: string
+  value: string
+  isShown: boolean
+  onSuccess: () => void
 }
 
-function GuessInput ({ word }: Props) {
+function GuessInput ({ isShown, value, onSuccess }: Props) {
   const [userGuess, setUserGuess] = useState<string[]>([])
-  const [isCorrect, setIsCorrect] = useState(false)
-
-  const guessInputClass = classNames({
-    'flex': true,
-    'border-6': isCorrect,
-    'border-solid': isCorrect,
-    'border-green-500': isCorrect,
-    'rounded-md': isCorrect,
-  })
+  const [focusedIndex, setFocusedIndex] = useState(0)
 
   useEffect(() => {
-    setUserGuess(word.split('').map(() => ''))
-  }, [word])
+    if (isShown) {
+      setUserGuess(value.split(''))
+    } else {
+      setUserGuess(() => value.split('').map(item => item === ' ' ? item : ''))
+      setFocusedIndex(0)
+    }
+  }, [isShown, value])
 
-  useEffect(() => {
-    setIsCorrect(userGuess.join('') === word)
-  }, [userGuess, word])
+  function changeFocus (diff: 1 | -1) {
+    let newFocusedIndex = focusedIndex + diff
+    if (diff === 1 && focusedIndex !== userGuess.length - 1) {
+      while (newFocusedIndex !== userGuess.length - 1 && value[newFocusedIndex] === ' ') {
+        newFocusedIndex += diff
+      }
+      setFocusedIndex(newFocusedIndex)
+    }
+    if (diff === -1 && focusedIndex !== 0) {
+      while (newFocusedIndex !== 0 && value[newFocusedIndex] === ' ') {
+        newFocusedIndex += diff
+      }
+      setFocusedIndex(newFocusedIndex)
+    }
+  }
+
+  function onChangeLetter (event: string, index: number) {
+    const newUserGuess = userGuess.toSpliced(index, 1, event)
+    setUserGuess(newUserGuess)
+    if (newUserGuess.join('').toLocaleLowerCase() === value.toLocaleLowerCase()) {
+      onSuccess()
+    } else if (event) {
+      changeFocus(1)
+    }
+  }
 
   return (
     <>
-      <div className={guessInputClass}>
-        {userGuess.map((letter, index) => 
+      <div className='flex justify-center'>
+        {userGuess.map((letter, index) =>
           <GuessInputLetter
             value={letter}
             key={index}
-            onChange={event => {setUserGuess(() => userGuess.toSpliced(index, 1, event))}}
+            focused={focusedIndex === index}
+            blank={value[index] === ' '}
+            onChange={event => {onChangeLetter(event, index)}}
+            onChangeFocus={event => {changeFocus(event)}}
+            onFocus={() => {setFocusedIndex(index)}}
           />
         )}
       </div>
