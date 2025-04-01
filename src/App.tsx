@@ -28,7 +28,7 @@ function App () {
 
   return (
     <>
-      <div className="px-[10%] lg:px-[20%] h-screen flex flex-col justify-center">
+      <div className="px-[10%] lg:px-[20%] h-full my-auto flex flex-col justify-center">
         {getCurrentScreen()}
       </div>
     </>

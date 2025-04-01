@@ -8,6 +8,7 @@ export default tseslint.config(
   { ignores: ['dist'] },
   {
     extends: [
+      ...eslint.configs.recommended,
       // Remove ...tseslint.configs.recommended and replace with this
       ...tseslint.configs.recommendedTypeChecked,
       // Alternatively, use this for stricter rules

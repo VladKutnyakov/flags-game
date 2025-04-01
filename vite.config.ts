@@ -9,7 +9,6 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
-  base: '/flags-game/',
   server: {
     host: true,
   },

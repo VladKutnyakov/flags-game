@@ -37,7 +37,7 @@ function Timer ({ value, paused, timeTotal, onTimeIsUp }: Props) {
 
   return (
     <>
-      <div className='w-full basis-2 py-4 rounded-full'>
+      <div className='w-full basis-2 py-8 rounded-full'>
         <div
           className='h-full bg-emerald-700 rounded-full transition-width duration-200 ease-linear'
           style={{width: `${String(Math.floor((timeLeftRef.current / timeTotal) * 100))}%`}}

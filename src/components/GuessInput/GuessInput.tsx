@@ -48,7 +48,7 @@ function GuessInput ({ isShown, value, onSuccess }: Props) {
 
   return (
     <>
-      <div className='flex justify-center'>
+      <div className='flex overflow-x-auto py-2'>
         {userGuess.map((letter, index) =>
           <GuessInputLetter
             value={letter}
