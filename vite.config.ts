@@ -9,7 +9,7 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
-  base: '/flags-game/',
+  base: process.env.NODE_ENV === 'production' ? '/flags-game/' : '',
   server: {
     host: true,
   },
