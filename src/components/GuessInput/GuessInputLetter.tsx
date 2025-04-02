@@ -48,11 +48,10 @@ function GuessInputLetter ({ value, focused, blank, onChange, onChangeFocus, onF
   }
 
   function onBlur ($event: React.FocusEvent<HTMLElement>) {
+    console.log(focused, $event.relatedTarget?.tagName)
     if (
       focused &&
-      $event.relatedTarget &&
-      $event.relatedTarget.tagName !== 'INPUT' &&
-      ($event.relatedTarget as HTMLInputElement).readOnly
+      $event.relatedTarget?.tagName !== 'INPUT'
     ) {
       inputRef.current?.focus()
     }
